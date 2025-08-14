@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เว็บไซต์ของ เดโชชิต โตวินัส</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Prompt', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            background: black;
+        }
+
+        /* พื้นหลัง Canvas */
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at center, #0b0f1f 0%, #000000 100%);
+        }
+
+        .card {
+            position: relative;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(0,255,255,0.4);
+            border-radius: 20px;
+            width: 340px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 0 30px rgba(0,255,255,0.3);
+            overflow: hidden;
+            animation: glow 3s infinite alternate;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        /* เอฟเฟกต์แสงรอบการ์ด */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, rgba(0,255,255,0.5), rgba(255,255,255,0), rgba(0,255,255,0.5));
+            animation: borderGlow 3s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(0,255,255,0.2); }
+            to { box-shadow: 0 0 40px rgba(0,255,255,0.6); }
+        }
+
+        @keyframes borderGlow {
+            0% { filter: blur(4px) hue-rotate(0deg); }
+            100% { filter: blur(4px) hue-rotate(360deg); }
+        }
+
+        .title-block {
+            padding: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #00ffff;
+            background: rgba(0,0,0,0.5);
+            border-bottom: 1px solid rgba(0,255,255,0.4);
+        }
+        .image {
+            text-align: center;
+            overflow: hidden;
+            height: 252px; /* เพิ่มขนาดรูปภาพขึ้น 40% */
+        }
+        .image img {
+            width: auto;
+            height: 100%;
+            border-bottom: 2px solid rgba(0,255,255,0.4);
+        }
+        .info {
+            padding: 15px;
+        }
+        .name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #00ffff;
+        }
+        .element, .path {
+            font-size: 14px;
+            color: #ffdd55;
+        }
+        .section-title {
+            margin-top: 15px;
+            font-size: 16px;
+            color: #00ffff;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 5px;
+        }
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* กล่องปุ่มสุ่มตัวเลข */
+        .rbox {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(0,255,255,0.4);
+            border-radius: 10px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 0 20px rgba(0,255,255,0.3);
+            text-align: center;
+        }
+        .rbox button {
+            background: rgba(0,255,255,0.2);
+            border: none;
+            padding: 10px 20px;
+            color: #00ffff;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .rbox button:hover {
+            background: rgba(0,255,255,0.4);
+        }
+        #num {
+            margin-top: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffdd55;
+            letter-spacing: 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- พื้นหลังดวงดาว -->
+    <canvas id="starfield"></canvas>
+
+    <!-- การ์ดตัวละคร -->
+    <div class="card">
+        <div class="title-block">หน้าแนะนำตัว</div>
+        <div class="image">
+            <img src="myphoto.jpg" alt="รูปภาพของฉัน">
+        </div>
+        <div class="info">
+            <div class="name">เดโชชิต โตวินัส</div>
+            <div class="element">^สวัสดีครับ!</div>
+            <div class="path">^นี่คือหน้าเว็บแนะนำตัวของผม</div>
+
+            <div class="section-title">ข้อมูลส่วนตัว</div>
+            <div class="stat"><span>รหัสประจำตัว</span><span>683380591-6</span></div>
+            <div class="stat"><span>อีเมล</span><span>dechochit.t@kkumail.com</span></div>
+            <div class="stat"><span>ความสนใจ</span><span>การอ่านหนังสือ, เล่นเกม</span></div>
+        </div>
+    </div>
+
+    <!-- ปุ่มสุ่มตัวเลข -->
+    <div class="rbox">
+        <button onclick="start_random()">กดเพื่อสุ่มตัวเลข 6 หลัก</button>
+        <div id="num">------</div>
+    </div>
+
+    <script>
+        // พื้นหลังดวงดาว
+        const canvas = document.getElementById("starfield");
+        const ctx = canvas.getContext("2d");
+
+        let stars = [];
+        let numStars = 200;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            stars = [];
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2,
+                    speed: Math.random() * 0.5 + 0.2
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "white";
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        function updateStars() {
+            stars.forEach(star => {
+                star.y += star.speed;
+                if (star.y > canvas.height) {
+                    star.y = 0;
+                    star.x = Math.random() * canvas.width;
+                }
+            });
+        }
+
+        function animate() {
+            drawStars();
+            updateStars();
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+        animate();
+
+        // สุ่มตัวเลข 6 หลัก
+        let n = 0;
+        let numElem = document.getElementById("num");
+
+        function start_random(){
+            if(n > 0) return;
+            n = 50;
+            next_number();
+        }
+        function next_number(){
+            var r = Math.round(Math.random() * 999999) + "";
+            numElem.innerText = r.padStart(6, '0');
+            n--;
+            if(n > 0){
+                setTimeout(next_number, 150 - n); 
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
